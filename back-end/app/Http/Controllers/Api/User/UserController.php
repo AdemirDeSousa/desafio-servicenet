@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Services\User\UserService;
 use Illuminate\Http\Request;
 
@@ -19,5 +20,11 @@ class UserController extends Controller
     {
         return $this->userService->getUsers($request);
     }
+
+    public function store(StoreUserRequest $request)
+    {
+        return $this->userService->storeUser($request->all());
+    }
+
 
 }

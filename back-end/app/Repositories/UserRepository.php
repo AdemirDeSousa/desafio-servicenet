@@ -29,4 +29,15 @@ class UserRepository implements UserRepositoryInterface
         return $result->orderBy('name')->get();
     }
 
+    public function store(array $data): User
+    {
+        return $this->users->create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'birthdate' => $data['birthdate'],
+            'enrollment' => GenerateEnrollment::run(),
+            'password' => Hash::make($data['password'])
+        ]);
+    }
+
 }
