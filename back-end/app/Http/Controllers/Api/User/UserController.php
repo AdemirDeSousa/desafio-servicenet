@@ -26,5 +26,9 @@ class UserController extends Controller
         return $this->userService->storeUser($request->all());
     }
 
+    public function show(string $id)
+    {
+        return $this->userService->findUser($id);
+    }
 
 }

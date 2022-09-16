@@ -4,9 +4,11 @@ namespace App\Services\User;
 
 use App\Http\Resources\User\UsersResource;
 use App\Repositories\Contracts\UserRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserService
 {
@@ -41,6 +43,26 @@ class UserService
                 'message' => 'Falha ao cadastrar usuario'
             ], 500);
 
+        }
+    }
+
+    public function findUser(string $id)
+    {
+        try {
+
+            return new UsersResource($this->userRepository->findOrFail($id));
+
+        } catch (NotFoundHttpException $e) {
+
+            return response()->json([
+                'message' => 'Usuario nao encontrado'
+            ], 404);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'message' => 'Falha ao buscar usuario'
+            ], 500);
         }
     }
 

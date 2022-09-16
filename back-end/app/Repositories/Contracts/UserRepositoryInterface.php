@@ -9,4 +9,8 @@ use Illuminate\Http\Request;
 interface UserRepositoryInterface
 {
     public function getAll(Request $request): Collection;
+
+    public function store(array $data): User;
+
+    public function findOrFail(string $id): User;
 }

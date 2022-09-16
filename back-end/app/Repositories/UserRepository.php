@@ -8,6 +8,7 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -39,5 +40,17 @@ class UserRepository implements UserRepositoryInterface
             'password' => Hash::make($data['password'])
         ]);
     }
+
+    public function findOrFail(string $id): User
+    {
+        $result = $this->users->find($id);
+
+        if(!$result){
+            throw new NotFoundHttpException('Usuario nao encontrado');
+        }
+
+        return $result;
+    }
+
 
 }
