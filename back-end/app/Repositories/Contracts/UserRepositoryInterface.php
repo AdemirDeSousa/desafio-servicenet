@@ -13,4 +13,6 @@ interface UserRepositoryInterface
     public function store(array $data): User;
 
     public function findOrFail(string $id): User;
+
+    public function delete(string $id): void;
 }

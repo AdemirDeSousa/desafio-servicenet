@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Client;
+namespace Tests\Feature\Users;
 
 use App\Facades\Actions\GenerateEnrollment;
 use App\Models\User\User;
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
-class StoreClientTest extends TestCase
+class StoreUserTest extends TestCase
 {
     public const ENCODED_PASSWORD = '$2a$12$IqirdFrTM0w4pF5.yhQKbOpYe2fy.GmzmxHEVb3iVZez5QQPSSjPy';
 

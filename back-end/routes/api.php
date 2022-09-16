@@ -7,4 +7,5 @@ Route::name('users.')->prefix('usuarios')->controller(UserController::class)->gr
     Route::get('/', 'index')->name('index');
     Route::post('/', 'store')->name('store');
     Route::get('/{id}', 'show')->name('show');
+    Route::delete('/{id}', 'destroy')->name('destroy');
 });

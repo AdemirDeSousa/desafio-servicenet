@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ModalCreate from "../components/Modals/create";
+import ModalDelete from "../components/Modals/delete";
 import { customAxios } from "../service/axios";
 
 export default function Home() {
@@ -105,7 +106,7 @@ export default function Home() {
           <ModalCloseButton />
           {modalType === "edit" && "editar"}
           {modalType === "create" && <ModalCreate />}
-          {modalType === "delete" && "deletar"}
+          {modalType === "delete" && <ModalDelete id={userId} />}
         </ModalContent>
       </Modal>
     </>

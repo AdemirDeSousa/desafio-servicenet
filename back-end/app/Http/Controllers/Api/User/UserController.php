@@ -31,4 +31,9 @@ class UserController extends Controller
         return $this->userService->findUser($id);
     }
 
+    public function destroy(string $id)
+    {
+        return $this->userService->deleteUser($id);
+    }
+
 }

@@ -66,4 +66,28 @@ class UserService
         }
     }
 
+    public function deleteUser(string $id)
+    {
+        try {
+
+            $this->userRepository->delete($id);
+
+            return response()->json([
+                'message' => 'Usuario excluido com sucesso'
+            ], 200);
+
+        } catch (NotFoundHttpException $e) {
+
+            return response()->json([
+                'message' => 'Usuario nao encontrado'
+            ], 404);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'message' => 'Falha ao excluir usuario'
+            ], 500);
+        }
+    }
+
 }
