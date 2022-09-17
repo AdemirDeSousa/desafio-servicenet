@@ -6,11 +6,14 @@ import {
   ModalBody,
   ModalHeader,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { customAxios } from "../../service/axios";
 
-const ModalCreate = () => {
+const ModalCreate = ({ modalState }) => {
+  const toast = useToast();
+
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -29,9 +32,18 @@ const ModalCreate = () => {
 
     customAxios
       .post("/usuarios", values)
-      .then(() => alert("Usuario criado com sucesso"))
+      .then(() => {
+        toast({
+          title: "Usuario criado com sucesso",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "top-right",
+        });
+        modalState(false);
+      })
       .catch((error) => {
-        setErrors(error.response.data.data);
+        setErrors(error?.response?.data?.data);
       });
   };
 
@@ -107,7 +119,9 @@ const ModalCreate = () => {
               onChange={onChange}
             />
           </FormControl>
-          <Button type="submit">Salvar</Button>
+          <Button marginTop="1.5rem" width="100%" type="submit">
+            Salvar
+          </Button>
         </form>
       </ModalBody>
     </>

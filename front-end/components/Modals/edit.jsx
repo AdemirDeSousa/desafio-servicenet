@@ -6,11 +6,13 @@ import {
   ModalBody,
   ModalHeader,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { customAxios } from "../../service/axios";
 
-const ModalEdit = ({ id }) => {
+const ModalEdit = ({ id, modalState }) => {
+  const toast = useToast();
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -41,7 +43,16 @@ const ModalEdit = ({ id }) => {
 
     customAxios
       .put(`/usuarios/${id}`, values)
-      .then(() => alert("Usuario atualizado com sucesso"))
+      .then(() => {
+        toast({
+          title: "Usuario atualizado com sucesso",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "top-right",
+        });
+        modalState(false);
+      })
       .catch((error) => {
         setErrors(error.response.data.data);
       });
@@ -131,7 +142,9 @@ const ModalEdit = ({ id }) => {
               onChange={onChange}
             />
           </FormControl>
-          <Button type="submit">Atualizar</Button>
+          <Button marginTop="1.5rem" width="100%" type="submit">
+            Atualizar
+          </Button>
         </form>
       </ModalBody>
     </>

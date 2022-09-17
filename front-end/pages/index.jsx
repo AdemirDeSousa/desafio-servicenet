@@ -15,6 +15,7 @@ import {
   ModalContent,
   ModalCloseButton,
   Input,
+  Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ModalCreate from "../components/Modals/create";
@@ -37,7 +38,7 @@ export default function Home() {
     };
 
     getUsers();
-  }, [filter]);
+  }, [filter, open]);
 
   const onClose = () => {
     setOpen(false);
@@ -62,14 +63,30 @@ export default function Home() {
 
   return (
     <>
-      <Button onClick={() => onOpen(null, "create")}>Criar</Button>
       <form onSubmit={onFilter}>
-        <Input type="search" name="name" />
-        <Button type="submit">Pesquisar</Button>
+        <Box
+          display="flex"
+          width="40%"
+          marginX="auto"
+          marginY="2rem"
+          gap="0.5rem"
+        >
+          <Input type="search" name="name" placeholder="Nome do usuário" />
+          <Button type="submit">Pesquisar</Button>
+        </Box>
       </form>
+
+      <Button
+        onClick={() => onOpen(null, "create")}
+        variant="ghost"
+        width="100%"
+        size="lg"
+      >
+        Cadastrar novo usuário
+      </Button>
       <TableContainer>
         <Table>
-          <TableCaption>Modulo de Usuarios</TableCaption>
+          <TableCaption>Modulo de Usuário</TableCaption>
           <Thead>
             <Tr>
               <Th>Matricula</Th>
@@ -105,9 +122,13 @@ export default function Home() {
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          {modalType === "edit" && <ModalEdit id={userId} />}
-          {modalType === "create" && <ModalCreate />}
-          {modalType === "delete" && <ModalDelete id={userId} />}
+          {modalType === "create" && <ModalCreate modalState={setOpen} />}
+          {modalType === "edit" && (
+            <ModalEdit id={userId} modalState={setOpen} />
+          )}
+          {modalType === "delete" && (
+            <ModalDelete id={userId} modalState={setOpen} />
+          )}
         </ModalContent>
       </Modal>
     </>
