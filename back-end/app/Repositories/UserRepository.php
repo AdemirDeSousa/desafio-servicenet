@@ -52,6 +52,28 @@ class UserRepository implements UserRepositoryInterface
         return $result;
     }
 
+    public function update(array $data, string $id): void
+    {
+        $user = $this->findOrFail($id);
+
+        $user->update([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'birthdate' => $data['birthdate']
+        ]);
+    }
+
+    public function updatePassword(string $newPassword, string $id): void
+    {
+        $user = $this->findOrFail($id);
+
+        $user->update([
+            'password' => Hash::make($newPassword)
+        ]);
+    }
+
+
+
     public function delete(string $id): void
     {
         $user = $this->findOrFail($id);

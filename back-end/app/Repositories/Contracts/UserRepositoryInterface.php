@@ -14,5 +14,9 @@ interface UserRepositoryInterface
 
     public function findOrFail(string $id): User;
 
+    public function update(array $data, string $id): void;
+
+    public function updatePassword(string $newPassword, string $id): void;
+
     public function delete(string $id): void;
 }

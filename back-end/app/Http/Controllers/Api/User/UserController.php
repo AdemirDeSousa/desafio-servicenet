@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\User\UserService;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,11 @@ class UserController extends Controller
     public function show(string $id)
     {
         return $this->userService->findUser($id);
+    }
+
+    public function update(UpdateUserRequest $request, string $id)
+    {
+        return $this->userService->updateUser($request->validated(), $id);
     }
 
     public function destroy(string $id)

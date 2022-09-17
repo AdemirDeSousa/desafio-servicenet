@@ -8,15 +8,15 @@ class GenerateEnrollment
 {
     public function run(): string
     {
-        $now = now()->format('dmY');
+        do {
 
-        $randomCode = rand(1000, 9999);
+            $now = now()->format('dmY');
 
-        $enrollment = $randomCode . $now;
+            $randomCode = rand(1000, 9999);
 
-        if(User::query()->where('enrollment', $enrollment)->first()){
-            $enrollment = $this->run();
-        }
+            $enrollment = $randomCode . $now;
+
+        } while (User::query()->where('enrollment', $enrollment)->first());
 
         return $enrollment;
     }

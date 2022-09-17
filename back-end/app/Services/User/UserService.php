@@ -7,6 +7,7 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -62,6 +63,34 @@ class UserService
 
             return response()->json([
                 'message' => 'Falha ao buscar usuario'
+            ], 500);
+        }
+    }
+
+    public function updateUser(array $data, string $id)
+    {
+        try {
+
+            $this->userRepository->update($data, $id);
+
+            if(array_key_exists('password', $data)){
+                $this->userRepository->updatePassword($data['password'], $id);
+            }
+
+            return response()->json([
+                'message' => 'Usuario atualizado com sucesso'
+            ], 200);
+
+        } catch (NotFoundHttpException $e) {
+
+            return response()->json([
+                'message' => 'Usuario nao encontrado'
+            ], 404);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'message' => 'Falha ao atualizar usuario'
             ], 500);
         }
     }

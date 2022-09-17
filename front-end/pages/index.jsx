@@ -19,6 +19,7 @@ import {
 import { useEffect, useState } from "react";
 import ModalCreate from "../components/Modals/create";
 import ModalDelete from "../components/Modals/delete";
+import ModalEdit from "../components/Modals/edit";
 import { customAxios } from "../service/axios";
 
 export default function Home() {
@@ -104,7 +105,7 @@ export default function Home() {
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          {modalType === "edit" && "editar"}
+          {modalType === "edit" && <ModalEdit id={userId} />}
           {modalType === "create" && <ModalCreate />}
           {modalType === "delete" && <ModalDelete id={userId} />}
         </ModalContent>

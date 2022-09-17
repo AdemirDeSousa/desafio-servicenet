@@ -7,12 +7,24 @@ import {
   ModalHeader,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { customAxios } from "../../service/axios";
 
-const ModalCreate = () => {
+const ModalEdit = ({ id }) => {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const getUserById = () => {
+      customAxios.get(`/usuarios/${id}`).then((res) => {
+        setValues(res.data.data);
+      });
+    };
+
+    getUserById();
+  }, [id]);
+
+  console.log(values);
 
   const onChange = (e) => {
     const value = e.target.value;
@@ -28,8 +40,8 @@ const ModalCreate = () => {
     e.preventDefault();
 
     customAxios
-      .post("/usuarios", values)
-      .then(() => alert("Usuario criado com sucesso"))
+      .put(`/usuarios/${id}`, values)
+      .then(() => alert("Usuario atualizado com sucesso"))
       .catch((error) => {
         setErrors(error.response.data.data);
       });
@@ -37,16 +49,26 @@ const ModalCreate = () => {
 
   return (
     <>
-      <ModalHeader>Criar Usuario</ModalHeader>
+      <ModalHeader>Editar Usuario</ModalHeader>
 
       <ModalBody pb={6}>
         <form onSubmit={onSubmit}>
+          <FormControl>
+            <FormLabel>Matricula</FormLabel>
+            <Input
+              onChange={onChange}
+              type={"text"}
+              disabled
+              value={values.enrollment}
+            />
+          </FormControl>
           <FormControl mt={4}>
             <FormLabel>Nome</FormLabel>
             <Input
               onChange={onChange}
               type={"text"}
               name="name"
+              value={values.name}
               isInvalid={errors?.name}
             />
             {errors?.name && (
@@ -61,6 +83,7 @@ const ModalCreate = () => {
               onChange={onChange}
               type={"date"}
               name="birthdate"
+              value={values.birthdate}
               isInvalid={errors?.birthdate}
             />
             {errors?.birthdate && (
@@ -75,6 +98,7 @@ const ModalCreate = () => {
               onChange={onChange}
               type={"email"}
               name="email"
+              value={values.email}
               isInvalid={errors?.email}
             />
             {errors?.email && (
@@ -107,11 +131,11 @@ const ModalCreate = () => {
               onChange={onChange}
             />
           </FormControl>
-          <Button type="submit">Salvar</Button>
+          <Button type="submit">Atualizar</Button>
         </form>
       </ModalBody>
     </>
   );
 };
 
-export default ModalCreate;
+export default ModalEdit;

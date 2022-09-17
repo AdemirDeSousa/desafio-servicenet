@@ -14,6 +14,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'required|max:255',
             'birthdate' => 'required',
             'email' => "required|email|unique:users,email,{$this->id}",
+            'password' => 'nullable|confirmed|min:8'
         ];
     }
 
